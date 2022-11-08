@@ -1,0 +1,33 @@
+{% extends "layout/base.html" %}
+
+{% block title  %}Index Page {% endblock %}
+
+{% block content %}
+<h1>Hello Index page</h1>
+    <h2>{{ id }}</h2>
+    <h2>{{ name }}</h2>
+    <h2>{{ email }}</h2>
+
+    {% if id == '001' and name == 'latsamee' %}
+    <h2>Access OK!</h2>
+    {% else %}
+    <h2>Access Error!</h2>
+    {% endif %}
+    
+    <ul>
+
+    {% for x in activities %}
+       <li>{{ x }}</li>
+    {% endfor %}
+
+   </ul>
+   <a href="{% url 'myapp:index' %}">Go to Index Page</a><br>
+   <a href="{% url 'myapp:hello' id=1  %}">Go to Hello Page</a><br>
+   <a href="{% url 'myapp:article' year=2020 slug='basic-python-programming' %}">Go to article Page</a><br>
+
+
+   <a href="{% url 'book:index' %}">Go to Book Page</a><br>
+
+
+
+{% endblock %}

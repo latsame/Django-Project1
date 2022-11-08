@@ -1,0 +1,68 @@
+{% extends "layout/base.html" %}
+
+{% block title  %}Book Page {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-2">
+
+        <div class="list-group">
+            
+            <a href="{% url 'book:index' %}" class="list-group-item list-group-item-action {% if not categ_id %}active{% endif %}">All</a>
+            {% for c in categories %}
+            <a href="{% url 'book:index' %}?categoryid={{ c.id }}" class="list-group-item list-group-item-action {% if categ_id|add:'0' == c.id %}active{% endif %}">{{ c.name }}</a>
+            {% endfor %}
+          </div>
+
+
+    </div>
+    <div class="col-lg-10">
+    <h1>Book</h1>
+
+
+    <div class="row">
+        {% for b in books %}
+        <div class="col-lg-3">
+            <div class="card mb-4">
+                {% if b.image %}
+                <a href="{% url 'book:detail' slug=b.slug %}">
+                    <img src="{{ b.image.url }}" alt="" class="card-img-top">
+                </a>
+                {% endif %}
+                <div class="card-body">
+                <h5> <a href="{% url 'book:detail' slug=b.slug %}">{{ b.name }}</a> </h5>
+                <div> Category: {{ b.category.name }} </div>
+                <div>Price: {{b.price|floatformat:2 }}</div>
+                <div>Author:</div>
+                {% for a in b.author.all %}
+                <span class="badge badge-secondary">{{ a.name }}</span>
+                {% endfor %}
+
+                <br>
+                  <a href="{% url 'book:detail' slug=b.slug %}" class="btn btn-info mt-4">View detail</a>
+
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+
+    <ul class="pagination">
+
+        {% if books.has_previous %}
+        <li class="page-item"><a class="page-link" href="?page=books.previous_page_number">Previous</a></li>
+        {% endif %}
+
+        {% for i in books.paginator.page_range %}
+        <li class="page-item {% if books.number == i %}active{% endif %}"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+        {% endfor %}
+
+        {% if books.has_next %}
+        <li class="page-item"><a class="page-link" href="?page=books.next_page_number">Next</a></li>
+        {% endif %}
+      </ul>
+
+    </div>
+</div>
+
+{% endblock %}

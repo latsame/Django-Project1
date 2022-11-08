@@ -1,0 +1,31 @@
+{% extends "layout/base.html" %}
+
+{% block title  %}Book Detail {% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-2">
+        {% if book.image %}
+        <img src="{{ book.image.url }}" class="img-fluid mb-4" alt="">
+        {% endif %}
+    </div>
+    <div class="col-lg-10">
+        <h1>{{ book.name }}</h1>
+        <div>Category : {{ book.category }}</div>
+        <div>Category : {{ book.price|floatformat:2 }}</div>
+        <a href="" class="btn btn-success mt-5">Add To Cart</a>
+    </div>
+</div>
+
+<h1>Comment ({{ book.get_comment_count }})</h1>
+{% for c in book.bookcomment_set.all %}
+<div class="card mb-4">
+    <div class="card-body">
+        <h5>{{ c.Comment }}</h5>
+        <div>Rating: {{ c.rating }} </div>   
+    </div>
+</div>
+{% endfor %}
+
+<a href=" url 'book:index' " class="mt-4"> Back to previous page</a>
+{% endblock %}
